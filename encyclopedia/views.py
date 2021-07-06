@@ -52,13 +52,17 @@ def index(request):
 
 
 def entry_page(request , page):
+    print(page)
     try :
         return render(request, "encyclopedia/entry_page.html", {
             "page": util.get_entry(page),
-            "entry" : util.get_entry(page)
+            "entry" : util.get_entry(page),
+            "p_title": page
         })
     except :
-        return render(request, "encyclopedia/pnf.html", {})
+        return render(request, "encyclopedia/pnf.html", {
+            "p_title": str(page)
+            })
 
 
 
@@ -83,6 +87,24 @@ def create(request):
 
 
     return render(request , "encyclopedia/pnf.html", {})
+
+
+def edit(request, p_title):
+    object_to_modify = util.get_entry(p_title)
+    print(object_to_modify)
+
+    if request.method == "POST":
+        new_text = request.POST.get('content')
+        util.save_entry(p_title, new_text)
+        print("Done")
+        return render(request,"encyclopedia/index.html", {
+        "entries": util.list_entries()}) 
+
+
+    return render(request ,"encyclopedia/edit_page.html" , {
+        "the_text": object_to_modify
+        })
+    
 
 
 
