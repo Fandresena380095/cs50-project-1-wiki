@@ -1,0 +1,23 @@
+{% extends "encyclopedia/layout.html" %}
+
+<style type="text/css">
+
+</style>
+
+{% block title %}
+    Encyclopedia
+{% endblock %}
+
+{% block body %}
+    <h1>All Pages</h1>
+
+    <ul>
+        {% for entry in entries %}
+           <a href="/wiki/{{entry.title}}"> <li class="list-element">{{ entry }}</li> </a>
+        {% endfor %}
+        {% for i in list_queries %}
+           <a href="/wiki/{{i.title}}"> <li class="list-element">{{ i }}</li> </a>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
