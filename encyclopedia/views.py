@@ -54,7 +54,8 @@ def index(request):
 def entry_page(request , page):
     try :
         return render(request, "encyclopedia/entry_page.html", {
-            "page": util.get_entry(page)
+            "page": util.get_entry(page),
+            "entry" : util.get_entry(page)
         })
     except :
         return render(request, "encyclopedia/pnf.html", {})
@@ -71,11 +72,15 @@ def create(request):
         try:
             for entry in util.list_entries():
                 if entry.lower() == title.lower() :
-                    return HttpResponse("Unfortunately ,your page already exists ")
-                else : 
-                    print("Ok you are good")
+                    return HttpResponse("Unfortunately ,your page already exists")
+            util.save_entry(title, content)
+            return render(request , "encyclopedia/entry_page.html", {
+                "page": util.get_entry(title),
+                "entry" : util.get_entry(title)
+                })
         except:
-            print("Yay")
+            return render(request , "encyclopedia/pnf.html", {})
+
 
     return render(request , "encyclopedia/pnf.html", {})
 
