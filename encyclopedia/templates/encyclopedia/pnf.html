@@ -6,8 +6,18 @@
 
 
 {% block body %}
-    
-C
+<form method="post">
+    {% csrf_token %}
+<div >   
+<h1>Title</h1>
+<input type="text" name="title">
+</div> 
 
+<div>
+<h5>Content</h5>
+<textarea name="content" id="content"></textarea>
+</div>
+<input type="submit" name="submit_content" value ="Save">
+</form>
 {% endblock %}
 

@@ -61,7 +61,22 @@ def entry_page(request , page):
 
 
 
+
 def create(request):
+    if request.method == "POST":
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        list_entries = util.list_entries()
+        print(f'{title}:{content}')
+        try:
+            for entry in util.list_entries():
+                if entry.lower() == title.lower() :
+                    return HttpResponse("Unfortunately ,your page already exists ")
+                else : 
+                    print("Ok you are good")
+        except:
+            print("Yay")
+
     return render(request , "encyclopedia/pnf.html", {})
 
 
