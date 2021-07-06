@@ -5,6 +5,7 @@ from django import forms
 import re
 
 from . import util
+import random 
 
 
 
@@ -20,7 +21,7 @@ def index(request):
         if q in list_entries :
             print("Total")
             return render(request, "encyclopedia/entry_page.html", {
-            "page": util.get_entry(q)
+            "page": util.get_entry(q),
         })
 
         elif any(q in i for i in list_entries):
@@ -34,7 +35,7 @@ def index(request):
                 return render(request, "encyclopedia/index.html", {
         "list_queries": list_queries})
             except:
-                print("yay , try again")
+                print("Try again")
                 return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()})
 
@@ -45,8 +46,14 @@ def index(request):
         "entries": util.list_entries()
     })
     else :
+        import random
+        random_list = util.list_entries()
+        random_choice = random.choice(random_list)
+        print(random_choice)
         return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries()})
+        "entries": util.list_entries(),
+        "random_page": str(random_choice)
+        })
 
 
 
@@ -105,6 +112,8 @@ def edit(request, p_title):
     return render(request ,"encyclopedia/edit_page.html" , {
         "the_text": object_to_modify
         })
+
+
     
 
 
