@@ -97,8 +97,9 @@ def edit(request, p_title):
         new_text = request.POST.get('content')
         util.save_entry(p_title, new_text)
         print("Done")
-        return render(request,"encyclopedia/index.html", {
-        "entries": util.list_entries()}) 
+        return render(request,"encyclopedia/entry_page.html", {
+            "page": util.get_entry(p_title)
+        }) 
 
 
     return render(request ,"encyclopedia/edit_page.html" , {
