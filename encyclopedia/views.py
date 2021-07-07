@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render , redirect 
 from django.db.models import Q 
 from django.http import HttpResponseRedirect, HttpResponse
 from django import forms 
@@ -12,6 +12,7 @@ import random
 
 
 def index(request):
+    # Search functionality 
     if "q" in request.GET :
         q = request.GET["q"].lower()
         list_entries = []
@@ -41,26 +42,46 @@ def index(request):
 
             
         else: 
-            print("Nothing")
+            print("Error")
             return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
     })
+
+
     else :
-        import random
-        random_list = util.list_entries()
-        random_choice = random.choice(random_list)
+        print("cool")
+        import random 
+        choices = util.list_entries()
+        choice_list = []
+        for i in choices:
+            choice_list.append(i)
+        print(choice_list)
+        random_choice = random.choice(choice_list)
         print(random_choice)
 
-        try:
-           pass
-        except:
-            print('Try Again')
-
-        return render(request, "encyclopedia/index.html", {
+        return render(request ,"encyclopedia/index.html", {
         "entries": util.list_entries(),
         "random_page": str(random_choice)
         })
 
+
+
+def random(request):
+    import random 
+    choices = util.list_entries()
+    choice_list = []
+    for i in choices:
+        choice_list.append(i)
+    print(choice_list)
+    random_page = random.choice(choice_list)
+    print(random_page)
+    return render(request ,"encyclopedia/entry_page.html",{
+        "page": util.get_entry(random_page),
+        "entry" : util.get_entry(random_page),
+        "p_title": random_page
+        } )
+
+            
 
 
 
@@ -81,6 +102,7 @@ def entry_page(request , page):
 
 
 def create(request):
+    # Create functionality 
     if request.method == "POST":
         title = request.POST.get('title')
         content = request.POST.get('content')
@@ -103,6 +125,7 @@ def create(request):
 
 
 def edit(request, p_title):
+    # Edit page functionality 
     object_to_modify = util.get_entry(p_title)
     print(object_to_modify)
 
