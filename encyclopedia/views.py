@@ -50,6 +50,12 @@ def index(request):
         random_list = util.list_entries()
         random_choice = random.choice(random_list)
         print(random_choice)
+
+        try:
+           pass
+        except:
+            print('Try Again')
+
         return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries(),
         "random_page": str(random_choice)
