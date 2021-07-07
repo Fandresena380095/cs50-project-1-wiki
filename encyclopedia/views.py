@@ -49,36 +49,26 @@ def index(request):
 
 
     else :
-        print("cool")
-        import random 
-        choices = util.list_entries()
-        choice_list = []
-        for i in choices:
-            choice_list.append(i)
-        print(choice_list)
-        random_choice = random.choice(choice_list)
-        print(random_choice)
-
         return render(request ,"encyclopedia/index.html", {
         "entries": util.list_entries(),
-        "random_page": str(random_choice)
         })
 
 
 
-def random(request):
+def random(request ):
     import random 
+    import markdown2
     choices = util.list_entries()
     choice_list = []
     for i in choices:
         choice_list.append(i)
     print(choice_list)
-    random_page = random.choice(choice_list)
-    print(random_page)
+    random_p = random.choice(choice_list)
+    print(random_p)
     return render(request ,"encyclopedia/entry_page.html",{
-        "page": util.get_entry(random_page),
-        "entry" : util.get_entry(random_page),
-        "p_title": random_page
+        "page": markdown2.markdown(util.get_entry(random_p)),
+        "entry" : markdown2.markdown(util.get_entry(random_p)),
+        "p_title": random_p
         } )
 
             
@@ -86,11 +76,12 @@ def random(request):
 
 
 def entry_page(request , page):
+    import markdown2 
     print(page)
     try :
         return render(request, "encyclopedia/entry_page.html", {
-            "page": util.get_entry(page),
-            "entry" : util.get_entry(page),
+            "page": markdown2.markdown(util.get_entry(page)),
+            "entry" :markdown2.markdown(util.get_entry(page)),
             "p_title": page
         })
     except :
